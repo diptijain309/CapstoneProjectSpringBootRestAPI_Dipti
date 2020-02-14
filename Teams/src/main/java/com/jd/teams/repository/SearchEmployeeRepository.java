@@ -1,0 +1,38 @@
+package com.jd.teams.repository;
+
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import com.jd.teams.model.Employee;
+
+@Repository
+public interface SearchEmployeeRepository extends JpaRepository<Employee, String>{
+
+	List<Employee> findByFname(@Param("fname") String fname);
+	List<Employee> findByLname(@Param("lname") String lname);
+	List<Employee> findByRole(@Param("role") String role);
+	List<Employee> findByProduct(@Param("product") String product);
+	
+	@Query("select e from Employee e where e.fname = :fname and e.lname = :lname")
+	 List<Employee> findByLnameAndFname(@Param("fname") String fname, @Param("lname") String lname);
+	
+	@Query("select e from Employee e where e.fname = :fname and e.role = :role")
+	 List<Employee> findByRoleAndFname(@Param("fname") String fname, @Param("role") String role);
+	
+	@Query("select e from Employee e where e.fname = :fname and e.product = :product")
+	 List<Employee> findByProductAndFname(@Param("fname") String fname, @Param("product") String product);
+	
+	@Query("select e from Employee e where e.lname = :lname and e.role = :role")
+	 List<Employee> findByRoleAndLname(@Param("lname") String lname, @Param("role") String role);
+	
+	@Query("select e from Employee e where e.lname = :lname and e.product = :product")
+	 List<Employee> findByProductAndLname(@Param("lname") String lname, @Param("product") String product);
+
+	@Query("select e from Employee e where e.role = :role and e.product = :product")
+	 List<Employee> findByProductAndRole(@Param("role") String role, @Param("product") String product);
+	
+	
+}
